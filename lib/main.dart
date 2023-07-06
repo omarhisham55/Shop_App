@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/navigation/cubit_nav/navigation_bloc.dart';
 import 'package:shop_app/screens/boarding/boarding_screen.dart';
+import 'package:shop_app/screens/inner_app_screens/home_page.dart';
 import 'package:shop_app/screens/login/cubit/login_cubit.dart';
 import 'package:shop_app/screens/login/shop_login_screen.dart';
 import 'package:shop_app/screens/register/cubit/register_cubit.dart';
@@ -20,16 +21,28 @@ void main() async {
   DioHelper.init();
   await SharedPrefs.init();
 
+  Widget startWidget;
+
   bool isDark = SharedPrefs.getTheme(key: 'isDark');
   bool onBoarding = SharedPrefs.getSharedData(key: 'onBoarding');
-
-  runApp(MainApp(appTheme: isDark, onBoarding: onBoarding));
+  String token = SharedPrefs.getSharedData(key: 'token').toString();
+  print('shakalala $token');
+  if (onBoarding == true) {
+    if (token != null.toString()) {
+      startWidget = ShopHomePage();
+    } else {
+      startWidget = ShopLoginScreen();
+    }
+  } else {
+    startWidget = BoardingScreen();
+  }
+  runApp(MainApp(appTheme: isDark, startWidget: startWidget));
 }
 
 class MainApp extends StatelessWidget {
   final bool? appTheme;
-  final bool? onBoarding;
-  const MainApp({super.key, this.appTheme, this.onBoarding});
+  final Widget? startWidget;
+  const MainApp({super.key, this.appTheme, this.startWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +62,7 @@ class MainApp extends StatelessWidget {
               themeMode: (NavigationManager.nav(context).isDarkTheme)
                   ? ThemeMode.dark
                   : ThemeMode.light,
-              home: (onBoarding ?? false) ? ShopLoginScreen() : BoardingScreen(),
+              home: startWidget,
             );
           }),
     );
