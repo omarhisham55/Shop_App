@@ -4,6 +4,7 @@ import 'package:shop_app/screens/boarding/cubit/boarding_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/screens/login/shop_login_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/network/local/local_prefs.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 import 'cubit/boarding_states.dart';
 
@@ -11,6 +12,15 @@ class BoardingScreen extends StatelessWidget {
   BoardingScreen({super.key});
 
   final PageController pageViewController = PageController();
+
+  void submitBoard(context) {
+  SharedPrefs.saveData(key: 'onBoarding', value: true).then((value) {
+    if (value) {
+      replacePage(context, ShopLoginScreen());
+    }
+  });
+}
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -18,16 +28,15 @@ class BoardingScreen extends StatelessWidget {
       child: BlocConsumer<BoardingManager, BoardingState>(
           listener: (context, state) {},
           builder: (context, state) {
-            BoardingManager boardingManager = BoardingManager.boardingManager(context);
+            BoardingManager boardingManager =
+                BoardingManager.boardingManager(context);
             return Scaffold(
                 appBar: AppBar(
                   actions: [
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextButton(
-                          onPressed: () =>
-                              replacePage(context, ShopLoginScreen()),
-                          child: Text('SKIP')),
+                          onPressed: () => submitBoard(context), child: Text('SKIP')),
                     )
                   ],
                 ),
@@ -45,7 +54,8 @@ class BoardingScreen extends StatelessWidget {
                               controller: pageViewController,
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: (context, index) =>
-                                  buildBoardingItem(boardingManager.board[index]),
+                                  buildBoardingItem(
+                                      boardingManager.board[index]),
                               itemCount: boardingManager.board.length,
                             ),
                           ),
@@ -60,7 +70,7 @@ class BoardingScreen extends StatelessWidget {
                                       duration: Duration(milliseconds: 300),
                                       curve: Curves.easeOut);
                                   if (boardingManager.isLast) {
-                                    replacePage(context, ShopLoginScreen());
+                                    submitBoard(context);
                                   }
                                 },
                                 child: Icon(Icons.keyboard_arrow_right),
@@ -111,9 +121,10 @@ Widget buildBoardingItem(BoardingModal board) => Column(
 
 Widget pageIndicator(context, index) => AnimatedContainer(
       decoration: BoxDecoration(
-          color: (BoardingManager.boardingManager(context).dotWidth[index] == 30.0)
-              ? defaultColor
-              : inActiveColor,
+          color:
+              (BoardingManager.boardingManager(context).dotWidth[index] == 30.0)
+                  ? defaultColor
+                  : inActiveColor,
           borderRadius: BorderRadius.circular(30.0)),
       width: BoardingManager.boardingManager(context).dotWidth[index],
       duration: Duration(milliseconds: 300),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/navigation/cubit_nav/navigation_bloc.dart';
 import 'package:shop_app/screens/boarding/boarding_screen.dart';
 import 'package:shop_app/screens/login/cubit/login_cubit.dart';
+import 'package:shop_app/screens/login/shop_login_screen.dart';
 import 'package:shop_app/screens/register/cubit/register_cubit.dart';
 import 'package:shop_app/shared/network/remote/remote_api.dart';
 import 'package:shop_app/shared/styles/themes.dart';
@@ -20,13 +21,15 @@ void main() async {
   await SharedPrefs.init();
 
   bool isDark = SharedPrefs.getTheme(key: 'isDark');
+  bool onBoarding = SharedPrefs.getSharedData(key: 'onBoarding');
 
-  runApp(MainApp(appTheme: isDark));
+  runApp(MainApp(appTheme: isDark, onBoarding: onBoarding));
 }
 
 class MainApp extends StatelessWidget {
   final bool? appTheme;
-  const MainApp({super.key, this.appTheme});
+  final bool? onBoarding;
+  const MainApp({super.key, this.appTheme, this.onBoarding});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,7 @@ class MainApp extends StatelessWidget {
               themeMode: (NavigationManager.nav(context).isDarkTheme)
                   ? ThemeMode.dark
                   : ThemeMode.light,
-              home: BoardingScreen(),
+              home: (onBoarding ?? false) ? ShopLoginScreen() : BoardingScreen(),
             );
           }),
     );
