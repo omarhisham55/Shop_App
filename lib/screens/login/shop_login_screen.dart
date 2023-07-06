@@ -5,8 +5,9 @@ import 'package:shop_app/screens/register/shop_register_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
+import 'package:shop_app/shared/network/local/local_prefs.dart';
 
-import '../home_page.dart';
+import '../inner_app_screens/home_page.dart';
 
 class ShopLoginScreen extends StatelessWidget {
   const ShopLoginScreen({super.key});
@@ -20,12 +21,16 @@ class ShopLoginScreen extends StatelessWidget {
       child: BlocConsumer<LoginManager, LoginState>(listener: (context, state) {
         if (state is SuccessLoginState) {
           if (state.userModel.status) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                shopSnackBar(text: state.userModel.message, state: 'success'));
-            replacePage(context, ShopHomePage());
+            ScaffoldMessenger.of(context).showSnackBar(shopSnackBar(
+                text: state.userModel.message, state: SnackBarStates.success));
+            SharedPrefs.saveData(
+                    key: 'token', value: state.userModel.data.token)
+                .then((value) {
+              replacePage(context, ShopHomePage());
+            });
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-                shopSnackBar(text: state.userModel.message, state: 'error'));
+            ScaffoldMessenger.of(context).showSnackBar(shopSnackBar(
+                text: state.userModel.message, state: SnackBarStates.error));
           }
         }
       }, builder: (context, state) {
