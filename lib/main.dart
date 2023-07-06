@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/navigation/cubit_nav/navigation_bloc.dart';
-import 'package:shop_app/screens/boarding_screen.dart';
+import 'package:shop_app/screens/boarding/boarding_screen.dart';
 import 'package:shop_app/screens/login/cubit/login_cubit.dart';
 import 'package:shop_app/screens/register/cubit/register_cubit.dart';
 import 'package:shop_app/shared/network/remote/remote_api.dart';
 import 'package:shop_app/shared/styles/themes.dart';
 
 import 'navigation/cubit_nav/navigation_states.dart';
-import 'screens/cubit_screens/screens_bloc.dart';
+import 'screens/boarding/cubit/boarding_bloc.dart';
 import 'shared/bloc_observer/bloc_observer.dart';
 import 'shared/network/local/local_prefs.dart';
 
@@ -35,7 +35,6 @@ class MainApp extends StatelessWidget {
         BlocProvider(
             create: (context) =>
                 NavigationManager()..changeTheme(isDark: appTheme)),
-        BlocProvider(create: (context) => ScreenManager()),
       ],
       child: BlocConsumer<NavigationManager, NavigationState>(
           listener: (context, state) {},

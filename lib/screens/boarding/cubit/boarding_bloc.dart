@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../models/BoardModel.dart';
-import 'screens_states.dart';
+import '../../../models/BoardModel.dart';
+import 'boarding_states.dart';
 
-class ScreenManager extends Cubit<ScreenState> {
-  ScreenManager() : super(InitialState());
+class BoardingManager extends Cubit<BoardingState> {
+  BoardingManager() : super(InitialState());
 
-  static ScreenManager screenManager(context) =>
-      BlocProvider.of<ScreenManager>(context);
+  static BoardingManager boardingManager(context) =>
+      BlocProvider.of<BoardingManager>(context);
 ///////////////////////Board Tutorial///////////////////////////////////
   final List<BoardingModal> board = [
     BoardingModal(
