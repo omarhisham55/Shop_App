@@ -21,3 +21,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/img1.png
+    - assets/images/img2.png
+
+  fonts:
+    - family: Capriasimo
+      fonts:
+        - asset: assets/fonts/Caprasimo-Regular.ttf

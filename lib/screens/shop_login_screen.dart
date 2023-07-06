@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Navigation extends StatelessWidget {
-  const Navigation({super.key});
+class ShopLoginScreen extends StatelessWidget {
+  const ShopLoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
