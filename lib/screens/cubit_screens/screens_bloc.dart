@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../models/BoardModel.dart';
 import 'screens_states.dart';
@@ -7,7 +8,7 @@ class ScreenManager extends Cubit<ScreenState> {
 
   static ScreenManager screenManager(context) =>
       BlocProvider.of<ScreenManager>(context);
-
+///////////////////////Board Tutorial///////////////////////////////////
   final List<BoardingModal> board = [
     BoardingModal(
         boardImage: 'assets/images/img2.png',
@@ -35,5 +36,5 @@ class ScreenManager extends Cubit<ScreenState> {
       isLast = false;
     }
     emit(ChangeBoardIndicatorState());
-  }
+  }  
 }
