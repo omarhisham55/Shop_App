@@ -19,7 +19,6 @@ class ShopLoginScreen extends StatelessWidget {
           listener: (context, state) {},
           builder: (context, state) {
             LoginManager loginManager = LoginManager.loginManager(context);
-            GlobalKey<FormState> formKey = GlobalKey<FormState>();
             return Scaffold(
               appBar: AppBar(),
               body: Center(
@@ -27,7 +26,7 @@ class ShopLoginScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Form(
-                      key: formKey,
+                      key: loginManager.formKey,
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -39,6 +38,7 @@ class ShopLoginScreen extends StatelessWidget {
                                 context: context,
                                 controller: emailController,
                                 keyboardType: TextInputType.emailAddress,
+                                prefix: Icon(Icons.email),
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Enter valid email';
@@ -50,15 +50,28 @@ class ShopLoginScreen extends StatelessWidget {
                             defaultTextFormField(
                                 context: context,
                                 controller: passwordController,
-                                isPassword: true,
+                                prefix: Icon(Icons.lock),
+                                onSubmit: (value) {
+                                  if (loginManager.formKey.currentState!
+                                      .validate()) {
+                                    loginManager.sendLogin(
+                                        context,
+                                        emailController.text,
+                                        passwordController.text);
+                                  }
+                                },
                                 validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Enter valid password';
+                                  if (value!.length < 6) {
+                                    return 'Password is too short';
                                   }
                                   return null;
                                 },
                                 isObscure: loginManager.isVisible,
-                                label: 'Password'),
+                                label: 'Password',
+                                suffix: IconButton(
+                                    onPressed: () =>
+                                        loginManager.changePasswordIcon(),
+                                    icon: loginManager.passwordIcon)),
                             const SizedBox(height: 30.0),
                             Conditional.single(
                                 context: context,
@@ -66,8 +79,10 @@ class ShopLoginScreen extends StatelessWidget {
                                     state is! LoadingLoginState,
                                 widgetBuilder: (context) => shopButton(
                                     onPressed: () {
-                                      if (formKey.currentState!.validate()) {
+                                      if (loginManager.formKey.currentState!
+                                          .validate()) {
                                         loginManager.sendLogin(
+                                            context,
                                             emailController.text,
                                             passwordController.text);
                                       }

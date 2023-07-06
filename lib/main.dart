@@ -36,7 +36,6 @@ class MainApp extends StatelessWidget {
             create: (context) =>
                 NavigationManager()..changeTheme(isDark: appTheme)),
         BlocProvider(create: (context) => ScreenManager()),
-        BlocProvider(create: (context) => RegisterManager()),
       ],
       child: BlocConsumer<NavigationManager, NavigationState>(
           listener: (context, state) {},

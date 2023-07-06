@@ -6,6 +6,10 @@ double width(context, size) => MediaQuery.of(context).size.width * size;
 
 Widget fallBackIndicator() => Center(child: CircularProgressIndicator());
 
+SnackBar shopSnackBar(text) => SnackBar(
+      content: Text(text),
+    );
+
 void navigateTo(context, page) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => page));
 }
@@ -34,23 +38,22 @@ Widget defaultTextFormField(
         required TextEditingController controller,
         required String label,
         String? Function(String?)? validator,
+        Function(String)? onSubmit,
         bool? isObscure,
-        bool? isPassword,
+        Widget? prefix,
+        Widget? suffix,
         TextInputType? keyboardType}) =>
     TextFormField(
       controller: controller,
       keyboardType: keyboardType ?? TextInputType.text,
       obscureText: isObscure ?? false,
       validator: validator,
+      onFieldSubmitted: onSubmit,
       decoration: InputDecoration(
           label: Text(label, style: Theme.of(context).textTheme.labelSmall),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-          suffixIcon: (isPassword ?? false)
-              ? IconButton(
-                  onPressed: () =>
-                      LoginManager.loginManager(context).changePasswordIcon(),
-                  icon: LoginManager.loginManager(context).passwordIcon)
-              : null),
+          prefixIcon: prefix,
+          suffixIcon: suffix),
     );
 
 Widget shopButton({
