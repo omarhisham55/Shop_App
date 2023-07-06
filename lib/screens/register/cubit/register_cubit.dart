@@ -36,7 +36,7 @@ class RegisterManager extends Cubit<RegisterState> {
     }).then((value) {
       debugPrint('${value.data}');
       ScaffoldMessenger.of(context)
-          .showSnackBar(shopSnackBar(value.data['message']));
+          .showSnackBar(shopSnackBar(text: value.data['message']));
       Navigator.pop(context);
       emit(SuccessRegisterState());
     }).catchError((e) {

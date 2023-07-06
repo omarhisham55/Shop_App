@@ -6,8 +6,15 @@ double width(context, size) => MediaQuery.of(context).size.width * size;
 
 Widget fallBackIndicator() => Center(child: CircularProgressIndicator());
 
-SnackBar shopSnackBar(text) => SnackBar(
+SnackBar shopSnackBar({required String text, String? state}) => SnackBar(
       content: Text(text),
+      backgroundColor: (state == 'success')
+          ? successColor
+          : (state == 'warning')
+              ? warningColor
+              : (state == 'error')
+                  ? errorColor
+                  : null,
     );
 
 void navigateTo(context, page) {
