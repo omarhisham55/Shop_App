@@ -3,7 +3,7 @@ import 'package:shop_app/models/BoardModel.dart';
 import 'package:shop_app/screens/cubit_screens/screens_bloc.dart';
 import 'package:shop_app/screens/cubit_screens/screens_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/screens/shop_login_screen.dart';
+import 'package:shop_app/screens/login/shop_login_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
