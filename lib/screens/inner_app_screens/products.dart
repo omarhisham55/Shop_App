@@ -16,7 +16,7 @@ class Products extends StatelessWidget {
           ShopManager manager = ShopManager.shopManager(context);
           return Conditional.single(
               context: context,
-              conditionBuilder: (context) => state is! ShopLoadingHomeDataState,
+              conditionBuilder: (context) => manager.shopModel.data != null,
               widgetBuilder: (context) => Center(
                     child: Text('success'),
                   ),

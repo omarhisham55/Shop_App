@@ -1,6 +1,8 @@
 class ShopModel {
-  late bool status;
-  late ShopDataModel data;
+  late bool? status;
+  late ShopDataModel? data;
+
+  ShopModel({this.status, this.data});
 
   ShopModel.fromJSON(Map<String, dynamic> json) {
     status = json['status'];
