@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/screens/inner_app_screens/categories.dart';
+import 'package:shop_app/screens/inner_app_screens/favourites.dart';
+import 'package:shop_app/screens/inner_app_screens/products.dart';
+import 'package:shop_app/screens/inner_app_screens/settings.dart';
 import '../../shared/network/local/local_prefs.dart';
 import 'navigation_states.dart';
 
@@ -28,6 +32,16 @@ class NavigationManager extends Cubit<NavigationState> {
     emit(NavBarIndexChanged());
   }
 
-  List<String> navTitles = ['Tasks', 'Done', 'Archive'];
-  List<StatelessWidget> screens = const [];
+  List<StatelessWidget> screens = const [
+    Products(),
+    Categories(),
+    Favourites(),
+    Settings()
+  ];
+  List<BottomNavigationBarItem> bottomNavBarItems = [
+    BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+    BottomNavigationBarItem(icon: Icon(Icons.category), label: ''),
+    BottomNavigationBarItem(icon: Icon(Icons.favorite), label: ''),
+    BottomNavigationBarItem(icon: Icon(Icons.settings), label: ''),
+  ];
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/navigation/cubit_nav/navigation_bloc.dart';
 import 'package:shop_app/screens/boarding/boarding_screen.dart';
-import 'package:shop_app/screens/inner_app_screens/home_page.dart';
+import 'package:shop_app/screens/inner_app_screens/cubit/shop_bloc.dart';
+import 'package:shop_app/screens/inner_app_screens/products.dart';
 import 'package:shop_app/screens/login/cubit/login_cubit.dart';
 import 'package:shop_app/screens/login/shop_login_screen.dart';
 import 'package:shop_app/screens/register/cubit/register_cubit.dart';
@@ -10,8 +11,10 @@ import 'package:shop_app/shared/network/remote/remote_api.dart';
 import 'package:shop_app/shared/styles/themes.dart';
 
 import 'navigation/cubit_nav/navigation_states.dart';
+import 'navigation/navigation.dart';
 import 'screens/boarding/cubit/boarding_bloc.dart';
 import 'shared/bloc_observer/bloc_observer.dart';
+import 'shared/components/constants.dart';
 import 'shared/network/local/local_prefs.dart';
 
 void main() async {
@@ -25,13 +28,13 @@ void main() async {
 
   bool isDark = SharedPrefs.getTheme(key: 'isDark');
   bool onBoarding = SharedPrefs.getSharedData(key: 'onBoarding');
-  String token = SharedPrefs.getSharedData(key: 'token').toString();
+  token = SharedPrefs.getSharedData(key: 'token').toString();
   print('shakalala $token');
   if (onBoarding == true) {
     if (token != null.toString()) {
-      startWidget = ShopHomePage();
+      startWidget = const Navigation();
     } else {
-      startWidget = ShopLoginScreen();
+      startWidget = const ShopLoginScreen();
     }
   } else {
     startWidget = BoardingScreen();
@@ -51,6 +54,7 @@ class MainApp extends StatelessWidget {
         BlocProvider(
             create: (context) =>
                 NavigationManager()..changeTheme(isDark: appTheme)),
+        BlocProvider(create: (context) => ShopManager()..getHomeData())
       ],
       child: BlocConsumer<NavigationManager, NavigationState>(
           listener: (context, state) {},

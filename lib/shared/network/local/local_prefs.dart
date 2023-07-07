@@ -27,4 +27,8 @@ class SharedPrefs {
   static dynamic getSharedData({key}) {
     return sharedPrefrences.get(key);
   }
+
+  static Future<bool> removeData({key}) async {
+    return await sharedPrefrences.remove(key);
+  }
 }

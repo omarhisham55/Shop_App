@@ -7,7 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 import 'package:shop_app/shared/network/local/local_prefs.dart';
 
-import '../inner_app_screens/home_page.dart';
+import '../../navigation/navigation.dart';
+import '../inner_app_screens/products.dart';
 
 class ShopLoginScreen extends StatelessWidget {
   const ShopLoginScreen({super.key});
@@ -26,7 +27,9 @@ class ShopLoginScreen extends StatelessWidget {
             SharedPrefs.saveData(
                     key: 'token', value: state.userModel.data.token)
                 .then((value) {
-              replacePage(context, ShopHomePage());
+              if (value) {
+                replacePage(context, const Navigation());
+              }
             });
           } else {
             ScaffoldMessenger.of(context).showSnackBar(shopSnackBar(
