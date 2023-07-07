@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
 ThemeData lightTheme = ThemeData(
-    primarySwatch: defaultColor,
+    primarySwatch: ShopColors.defaultColor,
     appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -27,7 +27,7 @@ ThemeData lightTheme = ThemeData(
             );
 
 ThemeData darkTheme = ThemeData(
-    primarySwatch: defaultColor,
+    primarySwatch: ShopColors.defaultColor,
     appBarTheme: const AppBarTheme(
         backgroundColor: Color(333739),
         elevation: 0.0,

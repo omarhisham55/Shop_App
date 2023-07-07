@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/login/cubit/login_cubit.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
-double width(context, size) => MediaQuery.of(context).size.width * size;
+double width(context, size) => MediaQuery.sizeOf(context).width * size;
+double height(context, size) => MediaQuery.sizeOf(context).height * size;
 
 Widget fallBackIndicator() => Center(child: CircularProgressIndicator());
 
@@ -12,13 +12,13 @@ Color snackColor(SnackBarStates state) {
   Color color;
   switch (state) {
     case SnackBarStates.success:
-      color = successColor;
+      color = ShopColors.successColor;
       break;
     case SnackBarStates.warning:
-      color = warningColor;
+      color = ShopColors.warningColor;
       break;
     case SnackBarStates.error:
-      color = errorColor;
+      color = ShopColors.errorColor;
       break;
   }
   return color;
@@ -44,14 +44,14 @@ Widget formTitle(context, text) => Text(
       style: Theme.of(context)
           .textTheme
           .headlineMedium!
-          .copyWith(color: darkColor),
+          .copyWith(color: ShopColors.darkColor),
     );
 Widget formSubTitle(context, text) => Text(
       text,
       style: Theme.of(context)
           .textTheme
           .titleMedium!
-          .copyWith(color: inActiveColor),
+          .copyWith(color: ShopColors.inActiveColor),
     );
 Widget defaultTextFormField(
         {required BuildContext context,
@@ -88,7 +88,7 @@ Widget shopButton({
       width: width(context, buttonWidth ?? 1),
       child: MaterialButton(
         onPressed: onPressed,
-        color: defaultColor,
+        color: ShopColors.defaultColor,
         shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius ?? 20.0)),
         child: Padding(
@@ -97,7 +97,7 @@ Widget shopButton({
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!
-                  .copyWith(color: whiteColor)),
+                  .copyWith(color: ShopColors.whiteColor)),
         ),
       ),
     );

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-const defaultColor = Colors.deepOrange;
-const inActiveColor = Colors.grey;
-const darkColor = Colors.black;
-const whiteColor = Colors.white;
-const successColor = Colors.green;
-const warningColor = Colors.yellow;
-const errorColor = Colors.red;
+class ShopColors {
+  static const defaultColor = Colors.deepOrange;
+  static const inActiveColor = Colors.grey;
+  static const darkColor = Colors.black;
+  static const whiteColor = Colors.white;
+  static const successColor = Colors.green;
+  static const warningColor = Colors.yellow;
+  static const errorColor = Colors.red;
+}

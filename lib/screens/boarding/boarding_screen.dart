@@ -123,8 +123,8 @@ Widget pageIndicator(context, index) => AnimatedContainer(
       decoration: BoxDecoration(
           color:
               (BoardingManager.boardingManager(context).dotWidth[index] == 30.0)
-                  ? defaultColor
-                  : inActiveColor,
+                  ? ShopColors.defaultColor
+                  : ShopColors.inActiveColor,
           borderRadius: BorderRadius.circular(30.0)),
       width: BoardingManager.boardingManager(context).dotWidth[index],
       duration: Duration(milliseconds: 300),
