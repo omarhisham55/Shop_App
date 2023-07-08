@@ -4,3 +4,5 @@ const home = 'home';
 const categories = 'categories';
 const favorites = 'favorites';
 const settings = 'settings';
+const profile = 'profile';
+const updateProfile = 'update-profile';

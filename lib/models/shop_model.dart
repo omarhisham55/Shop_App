@@ -11,18 +11,18 @@ class ShopModel {
 }
 
 class ShopDataModel {
-  List<Map<String, dynamic>> banners = [];
-  List<Map<String, dynamic>> products = [];
+  List<BannerModel> banners = [];
+  List<ProductModel> products = [];
 
   ShopDataModel.fromJSON(Map<String, dynamic> json) {
-    json['banners'].forEach((element) => banners.add(element));
-    json['products'].forEach((element) => products.add(element));
+    json['banners'].forEach((element) => banners.add(BannerModel.fromJSON(element)));
+    json['products'].forEach((element) => products.add(ProductModel.fromJSON(element)));
   }
 }
 
 class BannerModel {
   late int id;
-  late int image;
+  late String image;
 
   BannerModel.fromJSON(Map<String, dynamic> json) {
     id = json['id'];

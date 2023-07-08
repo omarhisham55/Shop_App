@@ -17,7 +17,20 @@ class ShopRegisterScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => RegisterManager(),
       child: BlocConsumer<RegisterManager, RegisterState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is SuccessRegisterState) {
+            if(state.register.status){
+              shopToast(text: state.register.message, context: context, state: ToastStates.success);
+              Navigator.pop(context);
+            }else{
+              shopToast(text: state.register.message, context: context, state: ToastStates.error);
+            }
+          }
+          if (state is ErrorRegisterState) {
+            shopToast(
+                text: state.error, context: context, state: ToastStates.error);
+          }
+        },
         builder: (context, state) {
           RegisterManager registerManager =
               RegisterManager.registerManager(context);

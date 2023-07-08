@@ -1,12 +1,12 @@
 class UserModel {
-  late bool status;
-  late String message;
-  late UserDataModel data;
+  bool status = false;
+  String message = '';
+  UserDataModel data = UserDataModel.fromJSON({});
 
   UserModel.fromJSON(Map<String, dynamic> json) {
-    status = json["status"];
-    message = json["message"];
-    data = UserDataModel.fromJSON(json['data'] ?? {});
+    status = json["status"] ?? false;
+    message = json["message"] ?? '';
+    data = UserDataModel.fromJSON(json['data']);
   }
 }
 

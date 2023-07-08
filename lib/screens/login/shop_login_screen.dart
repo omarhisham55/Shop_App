@@ -8,6 +8,7 @@ import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart
 import 'package:shop_app/shared/network/local/local_prefs.dart';
 
 import '../../navigation/navigation.dart';
+import '../../shared/components/constants.dart';
 import '../inner_app_screens/products.dart';
 
 class ShopLoginScreen extends StatelessWidget {
@@ -22,16 +23,23 @@ class ShopLoginScreen extends StatelessWidget {
       child: BlocConsumer<LoginManager, LoginState>(listener: (context, state) {
         if (state is SuccessLoginState) {
           if (state.userModel.status) {
-            shopToast(text: state.userModel.message, context: context, state: ToastStates.success);
+            shopToast(
+                text: state.userModel.message,
+                context: context,
+                state: ToastStates.success);
             SharedPrefs.saveData(
                     key: 'token', value: state.userModel.data.token)
                 .then((value) {
               if (value) {
+                token = state.userModel.data.token;
                 replacePage(context, const Navigation());
               }
             });
           } else {
-            shopToast(text: state.userModel.message, context: context, state: ToastStates.error);
+            shopToast(
+                text: state.userModel.message,
+                context: context,
+                state: ToastStates.error);
           }
         }
       }, builder: (context, state) {
