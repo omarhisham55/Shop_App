@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/shared/styles/colors.dart';
+import 'package:toast/toast.dart';
 
 double width(context, size) => MediaQuery.sizeOf(context).width * size;
 double height(context, size) => MediaQuery.sizeOf(context).height * size;
 
 Widget fallBackIndicator() => Center(child: CircularProgressIndicator());
 
-enum SnackBarStates { success, warning, error }
+enum ToastStates { success, warning, error }
 
-Color snackColor(SnackBarStates state) {
+Color toastColor(ToastStates state) {
   Color color;
   switch (state) {
-    case SnackBarStates.success:
+    case ToastStates.success:
       color = ShopColors.successColor;
       break;
-    case SnackBarStates.warning:
+    case ToastStates.warning:
       color = ShopColors.warningColor;
       break;
-    case SnackBarStates.error:
+    case ToastStates.error:
       color = ShopColors.errorColor;
       break;
   }
   return color;
 }
 
-SnackBar shopSnackBar({required String text, required SnackBarStates state}) =>
-    SnackBar(
-      content: Text(text),
-      backgroundColor: snackColor(state),
-    );
+void shopToast({required String text, required BuildContext context, required ToastStates state}) {
+  ToastContext().context = context;
+  return Toast.show(text, backgroundColor: toastColor(state));
+}
 
 void navigateTo(context, page) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => page));

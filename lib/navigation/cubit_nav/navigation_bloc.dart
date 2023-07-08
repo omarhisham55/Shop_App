@@ -44,4 +44,8 @@ class NavigationManager extends Cubit<NavigationState> {
     BottomNavigationBarItem(icon: Icon(Icons.favorite), label: ''),
     BottomNavigationBarItem(icon: Icon(Icons.settings), label: ''),
   ];
+
+  void openSnackBar() {
+    emit(SnackBarState());
+  }
 }

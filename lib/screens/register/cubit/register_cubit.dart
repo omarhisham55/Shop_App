@@ -35,8 +35,7 @@ class RegisterManager extends Cubit<RegisterState> {
       'phone': number,
     }).then((value) {
       debugPrint('${value.data}');
-      ScaffoldMessenger.of(context)
-          .showSnackBar(shopSnackBar(text: value.data['message'], state: SnackBarStates.success));
+      shopToast(text: value.data['message'], context: context, state: ToastStates.success);
       Navigator.pop(context);
       emit(SuccessRegisterState());
     }).catchError((e) {

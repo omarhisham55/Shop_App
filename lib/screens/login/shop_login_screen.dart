@@ -22,8 +22,7 @@ class ShopLoginScreen extends StatelessWidget {
       child: BlocConsumer<LoginManager, LoginState>(listener: (context, state) {
         if (state is SuccessLoginState) {
           if (state.userModel.status) {
-            ScaffoldMessenger.of(context).showSnackBar(shopSnackBar(
-                text: state.userModel.message, state: SnackBarStates.success));
+            shopToast(text: state.userModel.message, context: context, state: ToastStates.success);
             SharedPrefs.saveData(
                     key: 'token', value: state.userModel.data.token)
                 .then((value) {
@@ -32,8 +31,7 @@ class ShopLoginScreen extends StatelessWidget {
               }
             });
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(shopSnackBar(
-                text: state.userModel.message, state: SnackBarStates.error));
+            shopToast(text: state.userModel.message, context: context, state: ToastStates.error);
           }
         }
       }, builder: (context, state) {

@@ -14,13 +14,27 @@ class Categories extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           ShopManager manager = ShopManager.shopManager(context);
-          return Conditional.single(
-              context: context,
-              conditionBuilder: (context) => manager.categoryModel.data != null,
-              widgetBuilder: (context) => Center(
-                    child: Text('success'),
+          return ListView.separated(
+              itemBuilder: (context, index) => categoryBuilder(
+                  context, manager.categoryModel.data!.data[index]),
+              separatorBuilder: (context, index) => const Divider(
+                    thickness: 2,
                   ),
-              fallbackBuilder: (context) => fallBackIndicator());
+              itemCount: manager.categoryModel.data!.data.length);
         });
   }
 }
+
+Widget categoryBuilder(BuildContext context, Map<String, dynamic> model) =>
+    Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(children: [
+        Image(
+          image: NetworkImage(model['image']),
+          width: width(context, .3),
+        ),
+        Text(model['name']),
+        const Spacer(),
+        Icon(Icons.chevron_right)
+      ]),
+    );

@@ -19,6 +19,7 @@ dev_dependencies:
   dio: ^5.2.1+1
   shared_preferences: ^2.2.0
   carousel_slider: ^4.2.1
+  toast: ^0.3.0
 
 flutter:
   uses-material-design: true

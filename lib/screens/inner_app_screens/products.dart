@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/models/categoryModel.dart';
 import 'package:shop_app/models/shop_model.dart';
 import 'package:shop_app/screens/inner_app_screens/cubit/shop_bloc.dart';
 import 'package:shop_app/screens/inner_app_screens/cubit/shop_states.dart';
@@ -13,24 +14,33 @@ class Products extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ShopManager, ShopStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          ShopManager manager = ShopManager.shopManager(context);
-          return Conditional.single(
+    return BlocConsumer<ShopManager, ShopStates>(listener: (context, state) {
+      if (state is ShopSuccessFavoritesState) {
+        if (!state.model.status) {
+          shopToast(
               context: context,
-              conditionBuilder: (context) => manager.shopModel.data != null,
-              widgetBuilder: (context) =>
-                  builderWidget(context, manager.shopModel.data!),
-              fallbackBuilder: (context) => fallBackIndicator());
-        });
+              text: state.model.message,
+              state: ToastStates.error);
+        }
+      }
+    }, builder: (context, state) {
+      ShopManager manager = ShopManager.shopManager(context);
+      return Conditional.single(
+          context: context,
+          conditionBuilder: (context) => manager.shopModel.data != null && manager.categoryModel.data != null,
+          widgetBuilder: (context) => builderWidget(
+              context, manager.shopModel.data!, manager.categoryModel.data!),
+          fallbackBuilder: (context) => fallBackIndicator());
+    });
   }
 }
 
-Widget builderWidget(BuildContext context, ShopDataModel model) =>
+Widget builderWidget(BuildContext context, ShopDataModel model,
+        CategoryDataModel categoryModel) =>
     SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CarouselSlider(
               items: model.banners
@@ -50,6 +60,11 @@ Widget builderWidget(BuildContext context, ShopDataModel model) =>
                   autoPlayAnimationDuration: Duration(seconds: 1),
                   autoPlayCurve: Curves.fastOutSlowIn,
                   scrollDirection: Axis.horizontal)),
+          buildCategories(context, categoryModel),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Text('New Products', style: TextStyle(fontSize: 20.0)),
+          ),
           SizedBox(height: 10.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -64,6 +79,50 @@ Widget builderWidget(BuildContext context, ShopDataModel model) =>
                   (index) => buildGridProduct(context, model.products[index])),
             ),
           )
+        ],
+      ),
+    );
+
+Widget buildCategories(BuildContext context, CategoryDataModel model) =>
+    Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Categories', style: TextStyle(fontSize: 20.0)),
+          SizedBox(height: 10.0),
+          SizedBox(
+            height: 100.0,
+            child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) => Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Image(
+                          image: NetworkImage(model.data[index]['image']),
+                          width: 100.0,
+                          height: 100.0,
+                        ),
+                        Container(
+                            color: Colors.black.withOpacity(.6),
+                            width: 100.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                model.data[index]['name'],
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            )),
+                      ],
+                    ),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(width: 10.0),
+                itemCount: model.data.length),
+          ),
         ],
       ),
     );
@@ -118,7 +177,13 @@ Widget buildGridProduct(context, model) => Column(
                   ),
                   const Spacer(),
                   IconButton(
-                      onPressed: () {}, icon: Icon(Icons.favorite_border))
+                      onPressed: () {
+                        ShopManager.shopManager(context)
+                            .editFavorites(model['id']);
+                      },
+                      icon: ShopManager.shopManager(context).fav[model['id']]!
+                          ? Icon(Icons.favorite, color: Colors.red)
+                          : Icon(Icons.favorite_border))
                 ],
               ),
             ],

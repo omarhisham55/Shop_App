@@ -16,7 +16,8 @@ class Settings extends StatelessWidget {
           ShopManager manager = ShopManager.shopManager(context);
           return Conditional.single(
               context: context,
-              conditionBuilder: (context) => manager.settingsModel.data != null,
+              // conditionBuilder: (context) => manager.settingsModel.data != null,
+              conditionBuilder: (context) => true,
               widgetBuilder: (context) => Center(
                     child: Text('success'),
                   ),
