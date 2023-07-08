@@ -27,7 +27,9 @@ class Products extends StatelessWidget {
       ShopManager manager = ShopManager.shopManager(context);
       return Conditional.single(
           context: context,
-          conditionBuilder: (context) => manager.shopModel.data != null && manager.categoryModel.data != null,
+          conditionBuilder: (context) =>
+              manager.shopModel.data != null &&
+              manager.categoryModel.data != null,
           widgetBuilder: (context) => builderWidget(
               context, manager.shopModel.data!, manager.categoryModel.data!),
           fallbackBuilder: (context) => fallBackIndicator());
@@ -45,7 +47,7 @@ Widget builderWidget(BuildContext context, ShopDataModel model,
           CarouselSlider(
               items: model.banners
                   .map((e) => Image(
-                        image: NetworkImage(e['image']),
+                        image: NetworkImage(e.image),
                         width: double.infinity,
                         fit: BoxFit.cover,
                       ))
@@ -60,10 +62,27 @@ Widget builderWidget(BuildContext context, ShopDataModel model,
                   autoPlayAnimationDuration: Duration(seconds: 1),
                   autoPlayCurve: Curves.fastOutSlowIn,
                   scrollDirection: Axis.horizontal)),
-          buildCategories(context, categoryModel),
           Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Text('New Products', style: TextStyle(fontSize: 20.0)),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Categories', style: TextStyle(fontSize: 20.0)),
+                SizedBox(height: 10.0),
+                SizedBox(
+                  height: 100.0,
+                  child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) =>
+                          buildCategoryItem(context, categoryModel.data[index]),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(width: 10.0),
+                      itemCount: categoryModel.data.length),
+                ),
+                Text('New Products', style: TextStyle(fontSize: 20.0)),
+              ],
+            ),
           ),
           SizedBox(height: 10.0),
           Padding(
@@ -83,62 +102,42 @@ Widget builderWidget(BuildContext context, ShopDataModel model,
       ),
     );
 
-Widget buildCategories(BuildContext context, CategoryDataModel model) =>
-    Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Categories', style: TextStyle(fontSize: 20.0)),
-          SizedBox(height: 10.0),
-          SizedBox(
-            height: 100.0,
-            child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) => Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        Image(
-                          image: NetworkImage(model.data[index]['image']),
-                          width: 100.0,
-                          height: 100.0,
-                        ),
-                        Container(
-                            color: Colors.black.withOpacity(.6),
-                            width: 100.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                model.data[index]['name'],
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            )),
-                      ],
-                    ),
-                separatorBuilder: (context, index) =>
-                    const SizedBox(width: 10.0),
-                itemCount: model.data.length),
-          ),
-        ],
-      ),
+Widget buildCategoryItem(BuildContext context, Category model) => Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Image(
+          image: NetworkImage(model.image),
+          width: 100.0,
+          height: 100.0,
+        ),
+        Container(
+            color: Colors.black.withOpacity(.6),
+            width: 100.0,
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Text(
+                model.name,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: Colors.white),
+              ),
+            )),
+      ],
     );
 
-Widget buildGridProduct(context, model) => Column(
+Widget buildGridProduct(context, ProductModel model) => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Stack(
           alignment: Alignment.bottomLeft,
           children: [
             Image(
-              image: NetworkImage(model['image']),
+              image: NetworkImage(model.image),
               height: 200.0,
             ),
             Visibility(
-                visible: model['discount'] == 0 ? false : true,
+                visible: model.discount == 0 ? false : true,
                 child: Container(
                   color: ShopColors.errorColor,
                   child: Padding(
@@ -156,19 +155,19 @@ Widget buildGridProduct(context, model) => Column(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Text(model['name'], maxLines: 2, overflow: TextOverflow.ellipsis),
+              Text(model.name, maxLines: 2, overflow: TextOverflow.ellipsis),
               Row(
                 children: [
                   Text(
-                    model['price'].round().toString(),
+                    model.price.round().toString(),
                     style: TextStyle(
                         color: ShopColors.defaultColor, fontSize: 12.0),
                   ),
                   SizedBox(width: 10.0),
                   Visibility(
-                    visible: (model['discount'] == 0) ? false : true,
+                    visible: (model.discount == 0) ? false : true,
                     child: Text(
-                      model['old_price'].round().toString(),
+                      model.oldPrice.round().toString(),
                       style: TextStyle(
                           color: ShopColors.inActiveColor,
                           fontSize: 12.0,
@@ -179,9 +178,9 @@ Widget buildGridProduct(context, model) => Column(
                   IconButton(
                       onPressed: () {
                         ShopManager.shopManager(context)
-                            .editFavorites(model['id']);
+                            .editFavorites(model.id);
                       },
-                      icon: ShopManager.shopManager(context).fav[model['id']]!
+                      icon: ShopManager.shopManager(context).fav[model.id]!
                           ? Icon(Icons.favorite, color: Colors.red)
                           : Icon(Icons.favorite_border))
                 ],

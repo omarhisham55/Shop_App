@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
+import 'package:shop_app/models/favoritesModel.dart';
 import '../../shared/components/components.dart';
 import '../../shared/styles/colors.dart';
 import 'cubit/shop_bloc.dart';
@@ -18,12 +19,12 @@ class Favourites extends StatelessWidget {
           return Conditional.single(
               context: context,
               conditionBuilder: (context) =>
-                  state is! ShopLoadingFavoritesState,
+                  manager.shopModel.data != null,
               widgetBuilder: (context) => ListView.separated(
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) => favoritesItemBuilder(context,
-                      manager.favoritesModel.data.favorites[index]['product']),
+                      manager.favoritesModel.data.favorites[index].product),
                   separatorBuilder: (context, index) => Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: const Divider(
@@ -36,7 +37,7 @@ class Favourites extends StatelessWidget {
   }
 }
 
-Widget favoritesItemBuilder(BuildContext context, Map<String, dynamic> model) =>
+Widget favoritesItemBuilder(BuildContext context, Product model) =>
     Padding(
       padding: const EdgeInsets.all(20.0),
       child: Container(
@@ -48,11 +49,11 @@ Widget favoritesItemBuilder(BuildContext context, Map<String, dynamic> model) =>
               alignment: Alignment.bottomLeft,
               children: [
                 Image(
-                  image: NetworkImage(model['image']),
+                  image: NetworkImage(model.image),
                   height: 100.0,
                 ),
                 Visibility(
-                    visible: model['discount'] == 0 ? false : true,
+                    visible: model.discount == 0 ? false : true,
                     child: Container(
                       color: ShopColors.errorColor,
                       child: Padding(
@@ -71,22 +72,22 @@ Widget favoritesItemBuilder(BuildContext context, Map<String, dynamic> model) =>
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
-                    Text(model['name'].toString(),
+                    Text(model.name.toString(),
                         maxLines: 2, overflow: TextOverflow.ellipsis),
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0),
                       child: Row(
                         children: [
                           Text(
-                            '${model['price'].round()}',
+                            '${model.price.round()}',
                             style: TextStyle(
                                 color: ShopColors.defaultColor, fontSize: 12.0),
                           ),
                           SizedBox(width: 10.0),
                           Visibility(
-                            visible: (model['discount'] == 0) ? false : true,
+                            visible: (model.discount == 0) ? false : true,
                             child: Text(
-                              '${model['old_price'].round()}',
+                              '${model.oldPrice.round()}',
                               style: TextStyle(
                                   color: ShopColors.inActiveColor,
                                   fontSize: 12.0,
@@ -97,10 +98,10 @@ Widget favoritesItemBuilder(BuildContext context, Map<String, dynamic> model) =>
                           IconButton(
                               onPressed: () {
                                 ShopManager.shopManager(context)
-                                    .editFavorites(model['id']);
+                                    .editFavorites(model.id);
                               },
                               icon: ShopManager.shopManager(context)
-                                      .fav[model['id']]!
+                                      .fav[model.id]!
                                   ? Icon(Icons.favorite, color: Colors.red)
                                   : Icon(Icons.favorite_border))
                         ],

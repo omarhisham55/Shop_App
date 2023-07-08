@@ -12,11 +12,11 @@ class CategoryModel {
 
 class CategoryDataModel {
   late int currentPage;
-  List<Map<String, dynamic>> data = [];
+  List<Category> data = [];
 
   CategoryDataModel.fromJSON(Map<String, dynamic> json) {
     currentPage = json['current_page'];
-    json['data'].forEach((element) => data.add(element));
+    json['data'].forEach((element) => data.add(Category.fromJSON(element)));
   }
 }
 

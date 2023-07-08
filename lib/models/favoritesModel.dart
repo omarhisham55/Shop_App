@@ -9,12 +9,12 @@ class FavoritesModel {
 }
 
 class FavoritesDataModel {
-  List<Map<String, dynamic>> favorites = [];
+  List<FavoriteItemModel> favorites = [];
   FavoritesDataModel.fromJSON(Map<String, dynamic> json) {
     if (json['data'] == null) {
       favorites = [];
     } else {
-      json['data'].forEach((element) => favorites.add(element));
+      json['data'].forEach((element) => favorites.add(FavoriteItemModel.fromJSON(element)));
     }
   }
 }

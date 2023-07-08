@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
+import 'package:shop_app/models/categoryModel.dart';
 import '../../shared/components/components.dart';
 import 'cubit/shop_bloc.dart';
 import 'cubit/shop_states.dart';
@@ -25,15 +25,15 @@ class Categories extends StatelessWidget {
   }
 }
 
-Widget categoryBuilder(BuildContext context, Map<String, dynamic> model) =>
+Widget categoryBuilder(BuildContext context, Category model) =>
     Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(children: [
         Image(
-          image: NetworkImage(model['image']),
+          image: NetworkImage(model.image),
           width: width(context, .3),
         ),
-        Text(model['name']),
+        Text(model.name),
         const Spacer(),
         Icon(Icons.chevron_right)
       ]),
