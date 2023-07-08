@@ -1,5 +1,7 @@
 import 'package:shop_app/models/favoritesModel.dart';
 
+import '../../../models/user_model.dart';
+
 abstract class ShopStates {}
 
 class ShopInitialState extends ShopStates {}
@@ -33,3 +35,21 @@ class ShopSuccessSettingsState extends ShopStates {}
 class ShopErrorSettingsState extends ShopStates {}
 
 class ShopToFavoritesState extends ShopStates {}
+
+class GetProfileLoadingState extends ShopStates {}
+
+class GetProfileSuccessState extends ShopStates {
+  UserModel userModel;
+  GetProfileSuccessState(this.userModel);
+}
+
+class GetProfileErrorState extends ShopStates {}
+
+class UpdateProfileLoadingState extends ShopStates {}
+
+class UpdateProfileSuccessState extends ShopStates {
+  UserModel userModel;
+  UpdateProfileSuccessState(this.userModel);
+}
+
+class UpdateProfileErrorState extends ShopStates {}

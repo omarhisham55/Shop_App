@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/categoryModel.dart';
 import 'package:shop_app/models/favoritesModel.dart';
 import 'package:shop_app/models/shop_model.dart';
+import 'package:shop_app/models/user_model.dart';
 import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/network/end_points/end_points.dart';
 import 'package:shop_app/shared/network/remote/remote_api.dart';
@@ -25,7 +26,7 @@ class ShopManager extends Cubit<ShopStates> {
     DioHelper.getData(url: home, token: token).then((value) {
       shopModel = ShopModel.fromJSON(value.data);
       shopModel.data?.products.forEach((element) {
-        fav.addAll({element['id']: element['in_favorites']});
+        fav.addAll({element.id: element.inFavorites});
       });
       emit(ShopSuccessHomeDataState());
     }).catchError((e) {
@@ -55,8 +56,6 @@ class ShopManager extends Cubit<ShopStates> {
     emit(ShopLoadingFavoritesState());
     DioHelper.getData(url: favorites, token: token).then((value) {
       favoritesModel = FavoritesModel.fromJSON(value.data);
-      print('zahra${favoritesModel.data.favorites[0]}');
-      print('zahra${favoritesModel.data.favorites[0]['product']['name']}');
       emit(ShopSuccessFavoritesState(changeFavoritesModel));
     }).catchError((e) {
       debugPrint(e.toString());
@@ -87,15 +86,48 @@ class ShopManager extends Cubit<ShopStates> {
 
   SettingsModel settingsModel = new SettingsModel();
 
-  // void getSettings() {
-  //   emit(ShopLoadingSettingsState());
-  //   DioHelper.getData(url: settings).then((value) {
-  //     settingsModel = SettingsModel.fromJSON(value.data);
-  //     print(settingsModel.data.toString());
-  //     emit(ShopSuccessSettingsState());
-  //   }).catchError((e) {
-  //     debugPrint(e.toString());
-  //     emit(ShopErrorSettingsState());
-  //   });
-  // }
+  void getSettings() {
+    emit(ShopLoadingSettingsState());
+    DioHelper.getData(url: settings).then((value) {
+      settingsModel = SettingsModel.fromJSON(value.data);
+      // print(settingsModel.data.toString());
+      emit(ShopSuccessSettingsState());
+    }).catchError((e) {
+      debugPrint(e.toString());
+      emit(ShopErrorSettingsState());
+    });
+  }
+
+  UserModel userModel = UserModel.fromJSON({});
+  void getProfile() {
+    emit(GetProfileLoadingState());
+    DioHelper.getData(url: profile, token: token).then((value) {
+      userModel = UserModel.fromJSON(value.data);
+      print(userModel.data.id.toString());
+      print(userModel.status.toString());
+      emit(GetProfileSuccessState(userModel));
+    }).catchError((e) {
+      debugPrint(e.toString());
+      emit(GetProfileErrorState());
+    });
+  }
+
+  void updateUser(String name, String email, String phone) {
+    emit(UpdateProfileLoadingState());
+    DioHelper.postData(url: updateProfile, token: token, data: {
+      'name': name,
+      'phone': phone,
+      'email': email,
+    }).then((value) {
+      userModel = UserModel.fromJSON(value.data);
+      print(userModel.data.email.toString());
+      print(userModel.status.toString());
+      emit(UpdateProfileSuccessState(userModel));
+    }).catchError((e) {
+      debugPrint(e.toString());
+      emit(UpdateProfileErrorState());
+    });
+  }
+
+  GlobalKey<FormState> formUpdateKey = GlobalKey<FormState>();
 }

@@ -54,8 +54,8 @@ class MainApp extends StatelessWidget {
               ..getHomeData()
               ..getCategory()
               ..getFavorites()
-            // ..getSettings()
-            )
+              ..getProfile()
+              ..getSettings())
       ],
       child: BlocConsumer<NavigationManager, NavigationState>(
           listener: (context, state) {},
