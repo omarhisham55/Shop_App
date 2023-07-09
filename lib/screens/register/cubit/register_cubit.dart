@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/models/user_model.dart';
 import '../../../shared/network/end_points/end_points.dart';
 import '../../../shared/network/remote/remote_api.dart';
 import 'register_states.dart';
@@ -33,7 +34,7 @@ class RegisterManager extends Cubit<RegisterState> {
       'email': email,
       'phone': number,
     }).then((value) {
-      emit(SuccessRegisterState(value.data));
+      emit(SuccessRegisterState(UserModel.fromJSON(value.data)));
     }).catchError((e) {
       debugPrint(e.toString());
       emit(ErrorRegisterState(e.toString()));

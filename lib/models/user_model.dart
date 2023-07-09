@@ -6,7 +6,7 @@ class UserModel {
   UserModel.fromJSON(Map<String, dynamic> json) {
     status = json["status"] ?? false;
     message = json["message"] ?? '';
-    data = UserDataModel.fromJSON(json['data']);
+    data = UserDataModel.fromJSON(json['data'] ?? {});
   }
 }
 

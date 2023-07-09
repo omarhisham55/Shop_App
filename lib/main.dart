@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/navigation/cubit_nav/navigation_bloc.dart';
 import 'package:shop_app/screens/boarding/boarding_screen.dart';
 import 'package:shop_app/screens/inner_app_screens/cubit/shop_bloc.dart';
+import 'package:shop_app/screens/inner_app_screens/search/cubit/search_cubit.dart';
 import 'package:shop_app/screens/login/shop_login_screen.dart';
 import 'package:shop_app/shared/network/remote/remote_api.dart';
 import 'package:shop_app/shared/styles/themes.dart';
@@ -55,7 +56,8 @@ class MainApp extends StatelessWidget {
               ..getCategory()
               ..getFavorites()
               ..getProfile()
-              ..getSettings())
+              ..getSettings()),
+              BlocProvider(create: (context) => SearchManager())
       ],
       child: BlocConsumer<NavigationManager, NavigationState>(
           listener: (context, state) {},

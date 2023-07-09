@@ -6,3 +6,4 @@ const favorites = 'favorites';
 const settings = 'settings';
 const profile = 'profile';
 const updateProfile = 'update-profile';
+const searchProduct = 'products/search';

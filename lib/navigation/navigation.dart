@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/navigation/cubit_nav/navigation_bloc.dart';
-import 'package:shop_app/screens/inner_app_screens/search.dart';
+import 'package:shop_app/screens/inner_app_screens/search/search.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/network/local/local_prefs.dart';
 import 'cubit_nav/navigation_states.dart';
