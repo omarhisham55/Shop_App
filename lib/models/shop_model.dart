@@ -15,8 +15,10 @@ class ShopDataModel {
   List<ProductModel> products = [];
 
   ShopDataModel.fromJSON(Map<String, dynamic> json) {
-    json['banners'].forEach((element) => banners.add(BannerModel.fromJSON(element)));
-    json['products'].forEach((element) => products.add(ProductModel.fromJSON(element)));
+    json['banners']
+        .forEach((element) => banners.add(BannerModel.fromJSON(element)));
+    json['products']
+        .forEach((element) => products.add(ProductModel.fromJSON(element)));
   }
 }
 
@@ -41,13 +43,13 @@ class ProductModel {
   late bool inCart;
 
   ProductModel.fromJSON(Map<String, dynamic> json) {
-    id = json['id'];
-    price = json['price'];
-    oldPrice = json['old_price'];
-    discount = json['discount'];
-    name = json['name'];
-    image = json['image'];
-    inFavorites = json['in_favorites'];
-    inCart = json['in_cart'];
+    id = json['id'] ?? 0;
+    price = json['price'] ?? 0;
+    oldPrice = json['old_price'] ?? 0;
+    discount = json['discount'] ?? 0;
+    name = json['name'] ?? '';
+    image = json['image'] ?? '';
+    inFavorites = json['in_favorites'] ?? false;
+    inCart = json['in_cart'] ?? false;
   }
 }

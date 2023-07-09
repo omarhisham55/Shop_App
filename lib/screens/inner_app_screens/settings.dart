@@ -30,6 +30,9 @@ class Settings extends StatelessWidget {
       }
     }, builder: (context, state) {
       ShopManager manager = ShopManager.shopManager(context);
+      name.text = manager.userModel.data.name;
+      email.text = manager.userModel.data.email;
+      phone.text = manager.userModel.data.phone;
       return Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -41,7 +44,7 @@ class Settings extends StatelessWidget {
                   defaultTextFormField(
                       context: context,
                       controller: name,
-                      label: manager.userModel.data.name,
+                      label: 'Name',
                       prefix: Icon(Icons.person),
                       keyboardType: TextInputType.text,
                       validator: (value) {
@@ -54,7 +57,7 @@ class Settings extends StatelessWidget {
                   defaultTextFormField(
                       context: context,
                       controller: email,
-                      label: manager.userModel.data.email,
+                      label: 'Email',
                       prefix: Icon(Icons.mail),
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
@@ -67,7 +70,7 @@ class Settings extends StatelessWidget {
                   defaultTextFormField(
                       context: context,
                       controller: phone,
-                      label: manager.userModel.data.phone,
+                      label: 'Phone',
                       prefix: Icon(Icons.numbers),
                       keyboardType: TextInputType.number,
                       validator: (value) {
@@ -84,8 +87,11 @@ class Settings extends StatelessWidget {
                       widgetBuilder: (context) => shopButton(
                           context: context,
                           onPressed: () {
-                            manager.updateUser(
-                                name.text, email.text, phone.text);
+                            if (manager.formUpdateKey.currentState!
+                                .validate()) {
+                              manager.updateUser(
+                                  name.text, email.text, phone.text);
+                            }
                           },
                           text: 'Update user info'),
                       fallbackBuilder: (context) => fallBackIndicator())

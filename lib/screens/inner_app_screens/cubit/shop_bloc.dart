@@ -112,9 +112,9 @@ class ShopManager extends Cubit<ShopStates> {
     });
   }
 
-  void updateUser(String name, String email, String phone) {
+  void updateUser(String name, String email, String phone, {String? password}) {
     emit(UpdateProfileLoadingState());
-    DioHelper.postData(url: updateProfile, token: token, data: {
+    DioHelper.putData(url: updateProfile, token: token, data: {
       'name': name,
       'phone': phone,
       'email': email,
