@@ -18,8 +18,7 @@ class Favourites extends StatelessWidget {
           ShopManager manager = ShopManager.shopManager(context);
           return Conditional.single(
               context: context,
-              conditionBuilder: (context) =>
-                  manager.shopModel.data != null,
+              conditionBuilder: (context) => manager.shopModel.data != null,
               widgetBuilder: (context) => ListView.separated(
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
@@ -37,8 +36,7 @@ class Favourites extends StatelessWidget {
   }
 }
 
-Widget favoritesItemBuilder(BuildContext context, Product model) =>
-    Padding(
+Widget favoritesItemBuilder(BuildContext context, Product model) => Padding(
       padding: const EdgeInsets.all(20.0),
       child: Container(
         width: 100.0,
@@ -51,6 +49,7 @@ Widget favoritesItemBuilder(BuildContext context, Product model) =>
                 Image(
                   image: NetworkImage(model.image),
                   height: 100.0,
+                  width: width(context, .3),
                 ),
                 Visibility(
                     visible: model.discount == 0 ? false : true,

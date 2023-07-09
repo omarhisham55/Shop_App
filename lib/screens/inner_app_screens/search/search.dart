@@ -88,6 +88,7 @@ Widget searchBuilder(BuildContext context, ProductModel model) => Padding(
                 Image(
                   image: NetworkImage(model.image),
                   height: 100.0,
+                  width: width(context, .3),
                 ),
                 Visibility(
                     visible: model.discount == 0 ? false : true,
