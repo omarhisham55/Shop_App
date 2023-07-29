@@ -23,7 +23,7 @@ void main() async {
   Widget startWidget;
 
   bool isDark = SharedPrefs.getTheme(key: 'isDark');
-  bool onBoarding = SharedPrefs.getSharedData(key: 'onBoarding');
+  bool? onBoarding = SharedPrefs.getSharedData(key: 'onBoarding');
   token = SharedPrefs.getSharedData(key: 'token').toString();
   print('shakalala $token');
   if (onBoarding == true) {
